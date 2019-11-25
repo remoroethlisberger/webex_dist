@@ -2,6 +2,7 @@ from flask import Flask
 from config import BaseConfig
 from db import db
 from routes.home import home
+from routes.api import api
 
 
 def create_app():
@@ -11,6 +12,7 @@ def create_app():
 
     # Registering all routes
     app_instance.register_blueprint(home, url_prefix='')
+    app_instance.register_blueprint(api, url_prefix='/api')
 
     return app_instance
 
