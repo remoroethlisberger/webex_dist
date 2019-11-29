@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, abort
+from flask import Blueprint, abort
 from jinja2 import TemplateNotFound
 
 api = Blueprint('api', __name__,

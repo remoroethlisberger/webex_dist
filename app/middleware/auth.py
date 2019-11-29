@@ -2,9 +2,17 @@ from flask import url_for, flash, render_template
 from flask_login import current_user, login_user
 from werkzeug.utils import redirect
 
+from db import db
 from forms.LoginForms import LoginForm, SignupForm
 from models.Users import User
-from db import db
+
+
+def add_login_manager_functions(login_manager):
+    login_manager.login_view = 'home.login'
+
+    @login_manager.user_loader
+    def load_user(user_id):
+        return User.query.filter_by(id=user_id).first()
 
 
 def check_login_status(request):
