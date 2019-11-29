@@ -10,6 +10,11 @@ from routes.home import home
 login_manager = LoginManager()
 
 
+def run_app():
+    app_, db_ = create_app()
+    return app_
+
+
 def create_app():
     app_instance = Flask(__name__, static_url_path='/static')
     app_instance.config.from_object(BaseConfig)

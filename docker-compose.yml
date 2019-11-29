@@ -3,13 +3,15 @@ services:
   app:
     build: ./app
     ports:
-      - 5000:5000
+      - 8000:8000
     env_file:
       - .env
     command:
-      python -u app.py
+      gunicorn 'app:run_app()' --chdir /usr/src/ -b 0.0.0.0:8000 --access-logfile - --reload --reload-extra-file /usr/src/templates/
     depends_on:
       - postgres
+    volumes:
+      - ./app:/usr/src
 
   postgres:
     image: "postgres:alpine"
