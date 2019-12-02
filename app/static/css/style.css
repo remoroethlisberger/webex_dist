@@ -1,3 +1,7 @@
 div#footer {
     background-color: darkgrey;
 }
+
+img#logo{
+    width: 120px;
+}

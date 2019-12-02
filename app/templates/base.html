@@ -11,6 +11,11 @@
 </head>
 <body>
     <div class="container">
+        <div id="header" class="row mt-2">
+            <div class="col-md-12">
+                <img class="float-left" id="logo" src={{ url_for('home.static', filename='img/webex_teams_logo.png') }} />
+            </div>
+        </div>
         <div id="content" class="row">
             {% block content %}
             {% endblock %}

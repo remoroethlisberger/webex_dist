@@ -5,7 +5,16 @@
 {% endblock %}
 
 {% block content %}
-    <div class="col-md-12 my-4">
-        <h2>Thanks your message has been sent</h2>
+    <div class="col-md-12 my-4 text-center">
+        {% if messages|count == 0 %}
+            <h2>Thanks your message has been sent!</h2>
+        {% else %}
+            <h2>Thank you, but there have been <span class="text-danger">some errors</span>!</h2>
+        {% endif %}
+    </div>
+    <div class="col-md-12">
+        <h4 class="error">Please add the Teams Notification Bot to the following spaces:
+            {{ messages|join(', ') }}
+        </h4>
     </div>
 {% endblock %}

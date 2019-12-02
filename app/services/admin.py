@@ -21,6 +21,6 @@ def show_dist_form(request):
                     filename = secure_filename(file.filename)
                     file.save(os.path.join('./static/uploads', filename))
                     filenames.append(os.path.join('./static/uploads', filename))
-            send_message(message, filenames, rooms)
-            return render_template('admin/message_sent.html')
+            messages = send_message(message, filenames, rooms)
+            return render_template('admin/message_sent.html', messages=messages)
     return render_template('admin/dist.html', form=dist_form)
