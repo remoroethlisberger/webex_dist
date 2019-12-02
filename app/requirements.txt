@@ -7,3 +7,4 @@ python-dotenv==0.10.3
 flask-login==0.4.1
 wtforms==2.2.1
 gunicorn==20.0.4
+webexteamssdk==1.2

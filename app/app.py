@@ -1,10 +1,9 @@
-from flask import Flask
-from flask_login import LoginManager
-
 from config import BaseConfig
 from db import db as db_instance
+from flask import Flask
+from flask_login import LoginManager
 from middleware.auth import add_login_manager_functions
-from models.Users import User
+from routes.admin.admin import admin
 from routes.api import api
 from routes.errors import add_custom_error_pages
 from routes.home import home
@@ -29,6 +28,7 @@ def create_app():
     # Registering all routes
     app_instance.register_blueprint(home, url_prefix='')
     app_instance.register_blueprint(api, url_prefix='/api')
+    app_instance.register_blueprint(admin, url_prefix='/admin')
 
     # Add custom error pages
     add_custom_error_pages(app_instance)
