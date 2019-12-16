@@ -11,6 +11,7 @@ def all_spaces():
         rooms = webex.rooms.list(teamId=os.environ.get('TEAM_ID'))
         for room in rooms:
             res.append((room.id, room.title))
+        res.append(('Y2lzY29zcGFyazovL3VzL1JPT00vYjI3Y2VkNjAtODY0My0xMWU0LTlhN2UtNjM4ODY3OGNmNmZh', 'Swiss Collab Partner Community'))
         return res
     except ApiError as e:
         return res
