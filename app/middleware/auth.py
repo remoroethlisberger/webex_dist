@@ -5,6 +5,7 @@ from werkzeug.utils import redirect
 from db import db
 from forms.LoginForms import LoginForm, SignupForm
 from models.Users import User
+from models.Credentials import Credentials
 
 
 def add_login_manager_functions(login_manager):
@@ -60,3 +61,24 @@ def register_user(request):
             return redirect(url_for('home.signup'))
 
     return render_template('admin/signup.html', form=signup_form)
+
+
+def login_through_token(token):
+    credentials = Credentials.query.filter_by(token=token).first()
+    if credentials.email and credentials.valid:
+        user = User.query.filter_by(email=credentials.email).first()
+        print(user)
+        if user:
+            credentials.valid = False
+            print(user)
+            login_user(user)
+            db.session.commit()
+        else:
+            name ='Webex'
+            email = credentials.email
+            password= token
+            user = User(name=name, email=email, password=password)
+            credentials.valid = False
+            db.session.add(user)
+            db.session.commit()
+            login_user(user)

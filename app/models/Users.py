@@ -32,4 +32,4 @@ class User(UserMixin, db.Model):
         self.created_on = datetime.now()
 
     def __repr__(self):
-        return '<User {}>'.format(self.username)
+        return '<User {}>'.format(self.name)

@@ -16,7 +16,7 @@
           <h1 class="text-center">Automated Message Distribution</h1>
           <div class="form-group">
              {{ form.message.label }}
-             {{ form.message(class_='form-control', placeholder='Some message') }}
+             {{ form.message(class_='form-control', placeholder='Enter message and don\'t forget to include your name') }}
              {% if form.message.errors %}
                <ul class="errors">
                  {% for error in form.message.errors %}<li>{{ error }}</li>{% endfor %}
@@ -46,4 +46,10 @@
           </div>
         </form>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+    <script type="text/javascript">
+      $("#rooms").attr("multiple", "multiple").select2();
+    </script>
 {% endblock %}
