@@ -10,15 +10,19 @@ def all_spaces():
     try:
         memberships = webex.memberships.list()
         for membership in memberships:
-            room = webex.rooms.get(roomId=membership.roomId)
-            if(room.teamId):
-                team = webex.teams.get(teamId=room.teamId)
-                res.append((room.id, team.name + ' - ' +  room.title))
-            else:
-                res.append((room.id, room.title))
+            try:
+                room = webex.rooms.get(roomId=membership.roomId)
+                if(room.teamId):
+                    team = webex.teams.get(teamId=room.teamId)
+                    res.append((room.id, team.name + ' - ' +  room.title))
+                else:
+                    res.append((room.id, room.title))
+            except ApiError as e:
+                pass
+            
         return res
     except ApiError as e:
-        return res
+        print(e)
 
 
 def send_message(message, files, spaces):
