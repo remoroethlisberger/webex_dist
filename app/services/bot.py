@@ -13,8 +13,9 @@ def all_spaces():
             room = webex.rooms.get(roomId=membership.roomId)
             if(room.teamId):
                 team = webex.teams.get(teamId=room.teamId)
-                res.append((room.id, team.name + ' ' +  room.title))
-        #res.append(('Y2lzY29zcGFyazovL3VzL1JPT00vYjI3Y2VkNjAtODY0My0xMWU0LTlhN2UtNjM4ODY3OGNmNmZh', 'Swiss Collab Partner Community'))
+                res.append((room.id, team.name + ' - ' +  room.title))
+            else:
+                res.append((room.id, room.title))
         return res
     except ApiError as e:
         return res
@@ -38,7 +39,7 @@ def send_message(message, files, spaces):
 
 def is_authorized(webhook_obj):
     message = webex.messages.get(webhook_obj.data.id)
-    if(message.personId == os.environ.get('ADMIN')):
+    if(message.personId in os.environ.get('ADMIN').split(',')):
         return True
     else:
         return False
@@ -51,7 +52,7 @@ def get_email(webhook_obj):
 
 def send_login_link(webhook_obj, token):
     message = webex.messages.get(webhook_obj.data.id)
-    webex.messages.create(toPersonId=message.personId, text="Hey" + os.environ.get('MAIN_URL') +  "login?token="+token)
+    webex.messages.create(toPersonId=message.personId, text="Hey, please find your login link here: \n" + os.environ.get('MAIN_URL') +  "login?token="+token)
     return
 
 def send_error_message(webhook_obj):
