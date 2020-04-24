@@ -1,7 +1,6 @@
 import os
 
 from webexteamssdk import ApiError, Webhook
-
 from . import webex
 
 

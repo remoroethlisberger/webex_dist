@@ -25,6 +25,9 @@
           </div>
           <div class="form-group">
             {{ form.rooms.label }}
+            <button type="button" class="float-right mb-2 btn btn-info btn-sm" data-toggle="modal" data-target="#favs">
+              Add Favorite Rooms &#11088;
+            </button>
             {{ form.rooms(class_='form-control') }}
             {% if form.rooms.errors %}
               <ul class="errors">
@@ -46,10 +49,80 @@
           </div>
         </form>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
+
+    <div class="modal fade" id="favs" role="dialog">
+      <div class="modal-dialog modal-lg">
+  
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Add favorite rooms</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body">
+            You can add and remove favorites by searching for them in the dropdown below...
+
+            <select style="width: 100%;" id="select2-favs" multiple="multiple">
+              {% for room in form.rooms.choices %}
+                <option value="{{room[0]}}">{{room[1]}}</option>
+              {% endfor %}
+              {{form.rooms.choices}}
+            </select>
+            <br/>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" onclick="sendFavorites()" data-dismiss="modal">Update</button>
+          </div>
+        </div>
+  
+      </div>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
     <script type="text/javascript">
-      $("#rooms").attr("multiple", "multiple").select2();
+      // convert the selection of rooms into a select2
+      $("#rooms").attr("multiple", "multiple").select2(
+        {
+          templateResult: function(data) {
+            return $("<textarea/>").html(data.text).text()
+          },
+          templateSelection: function(data) {
+            return $("<textarea/>").html(data.text).text()
+          }
+        });
+
+      // convert the selection of the favorites into a select2
+      $("#select2-favs").attr("multiple", "multiple").select2(
+        {
+          templateResult: function(data) {
+            return $("<textarea/>").html(data.text).text()
+          },
+          templateSelection: function(data) {
+            return $("<textarea/>").html(data.text).text()
+          }
+        });
+      // change the data to the current favorites
+      {% for fav in form.favs %}
+        $('#select2-favs').val(['{{form.favs| join("', '") | safe}}'])
+      {% endfor %}
+      $('#select2-favs').trigger('change');
+    </script>
+
+    <script type="text/javascript">
+      function sendFavorites(){
+        var favorites = $('#select2-favs').val()
+        console.log(favorites)
+        $.ajax({
+          contentType: 'application/json',
+          type: "POST",
+          url: '/admin/favs',
+          dataType:'json',
+          data: JSON.stringify({"favorites": favorites}),
+          success: location.reload()
+        });
+      }
     </script>
 {% endblock %}
